@@ -1,0 +1,11 @@
+
+to_string(): { Adam David Amer Ceve Owen Ella Jonas Morgan Fredrik Zoe Fred Albin Ola Simon }
+get_size(): 14
+contains(Fred): True
+contains(Bob): False
+
+max bucket: 2
+bucket list size: 16
+
+get_size: 10
+to_string(): { David Amer Owen Ella Morgan Fredrik Zoe Fred Albin Simon }
