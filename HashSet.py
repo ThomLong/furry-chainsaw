@@ -22,30 +22,43 @@ class HashSet:
 
     # Doubles size of bucket list
     def rehash(self):
-        bucket = self.buckets
+        buckets = self.buckets
         self.N = self.N * 2
         self.buckets = []
         self.buckets = [[] for i in range(self.N)]
-        for word in bucket:
-            self.add(word)
+        for bucket in buckets:
+            for word in bucket:
+                self.add(word)
 
     # Adds a word to set if not already added
     def add(self, word):
         hashed = self.get_hash(word)
-        if word not in self.buckets[hashed]:
-            self.buckets[hashed].append(word)
+        i = hashed
+        while self.buckets[i] != [] and word not in self.buckets[i]:
+            if i == self.N - 1:
+                i = 0
+            else:
+                i += 1
+            # if word in self.buckets[i]:
+            #     break
+
+        if self.buckets[i] == []:
+            self.buckets[i].append(word)
             self.size += 1
-            if self.size == self.N:
-                self.size = 0
-                self.rehash()
         else:
             pass
+        
+        if self.size == self.N:
+            self.size = 0
+            self.rehash()
 
     # Returns a string representation of the set content
     def to_string(self):
-        string = '{'
-        for i in self.buckets:
-            string += str(i)
+        string = '{ '
+        for bucket in self.buckets:
+            if bucket != []:
+                for i in bucket:
+                    string += str(i) + ' '
         string += '}'
         return string
 
@@ -53,7 +66,7 @@ class HashSet:
     def get_size(self):
         n = 0
         for bucket in self.buckets:
-            if bucket is not None:
+            if bucket != []:
                 n += 1
         return n
 
@@ -76,6 +89,7 @@ class HashSet:
         hashed = self.get_hash(word)
         if word not in self.buckets[hashed]:
             self.buckets[hashed] = []
+            self.size -= 1
         else:
             pass
 
