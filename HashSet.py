@@ -27,27 +27,29 @@ class HashSet:
         self.buckets = []
         self.buckets = [[] for i in range(self.N)]
         for bucket in buckets:
-            for word in bucket:
-                self.add(word)
+            word = bucket[0]
+            v = bucket[1]
+            self.add(word)
+            i = self.search(word)
+            if self.buckets[i][1] != v:
+                self.buckets[i][1] = v
 
     # Adds a word to set if not already added
     def add(self, word):
-        hashed = self.get_hash(word)
-        i = hashed
+        i = self.get_hash(word)
         while self.buckets[i] != [] and word not in self.buckets[i]:
             if i == self.N - 1:
                 i = 0
             else:
                 i += 1
-            # if word in self.buckets[i]:
-            #     break
-
-        if self.buckets[i] == []:
-            self.buckets[i].append(word)
+        bucket = self.buckets[i]
+        if bucket == []:
+            bucket.append(word)
+            bucket.append(1)
             self.size += 1
         else:
-            pass
-        
+            bucket[1] += 1
+
         if self.size == self.N:
             self.size = 0
             self.rehash()
@@ -57,8 +59,7 @@ class HashSet:
         string = '{ '
         for bucket in self.buckets:
             if bucket != []:
-                for i in bucket:
-                    string += str(i) + ' '
+                string += bucket[0] + ' '
         string += '}'
         return string
 
@@ -72,11 +73,11 @@ class HashSet:
 
     # Returns True if word in set, otherwise False
     def contains(self, word):
-        hashed = self.get_hash(word)
-        if word not in self.buckets[hashed]:
-            return True
-        else:
+        i = self.search(word)
+        if i is False:
             return False
+        else:
+            return True
 
     # Returns current size of bucket list
     def bucket_list_size(self):
@@ -86,17 +87,31 @@ class HashSet:
     # Removes word from set if there, does nothing
     # if word not in set
     def remove(self, word):
-        hashed = self.get_hash(word)
-        if word not in self.buckets[hashed]:
-            self.buckets[hashed] = []
-            self.size -= 1
-        else:
+        i = self.search(word)
+        if i is False:
             pass
+        else:
+            self.buckets[i] = []
+            self.size -= 1
 
     # Returns the size of the bucket with most elements
     def max_bucket_size(self):
         n = 0
         for bucket in self.buckets:
-            if len(bucket) > n:
-                n = len(bucket)
+            if bucket != []:
+                if bucket[1] > n:
+                    n = bucket[1]
         return n
+
+    def search(self, word):
+        i = self.get_hash(word)
+        while word not in self.buckets[i] and self.buckets[i] != []:
+            if i == self.N - 1:
+                i = 0
+            else:
+                i += 1
+
+        if self.buckets[i] == []:
+            return False
+        else:
+            return i
