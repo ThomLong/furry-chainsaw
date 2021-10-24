@@ -19,10 +19,10 @@ class Node:
     right: Any = None       # right child (a Node)
 
     def put(self, key, value):
-        pass       # Placeholder code ==> to be replaced
+        print('nope')  # Placeholder code ==> to be replaced
 
     def to_string(self):
-        return ""  # Placeholder code to avoid crash in demo program. To be replaced
+        return ""  # Placeholder code to avoid crash in demo program
 
     def count(self):
         pass       # Placeholder code ==> to be replaced
@@ -36,7 +36,8 @@ class Node:
     # We do a left-to-right in-order traversal of the tree
     # to get the key-value pairs sorted base on their keys
     def as_list(self, lst):
-        return [None]    # Placeholder code to avoid crash in demo program. To be replaced
+        # Placeholder code to avoid crash in demo program. To be replaced
+        return [None]
 
 
 # The BstMap class is rather simple. It basically just takes care
