@@ -37,8 +37,9 @@ rows_1 = read_file(path_1)
 words = get_words(rows_1)
 clean_words = clean(words)
 print(f'\nRead {len(rows_1)} lines from file {path_1}')
+
 # saving words to new file
-outpath_1 = home + "/holy_grail.txt-copy"
+outpath_1 = home + "/words_holygrail.txt"
 save_words(outpath_1, clean_words)
 print(f'saved {len(clean_words)} words in file {outpath_1}')
 print()
@@ -49,6 +50,6 @@ words1 = get_words(rows_2)
 clean_words1 = clean(words1)
 print(f'\nRead {len(rows_2)} lines from file {path_2}')
 # saving words to news file
-outpath_2 = home + "/eng_news_100K-sentences.txt-copy"
+outpath_2 = home + "/words_100k.txt"
 save_words(outpath_2, clean_words1)
 print(f'saved {len(clean_words1)} words in file {outpath_2}')
