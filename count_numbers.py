@@ -2,56 +2,49 @@
 import os
 
 
-def cleaning_file(file, banned):
-    lst = []
-    render_list = []
-    with open(file, 'r') as brut:
-        for entry in brut:
-            lst.append(entry.split(banned))
-
-        for entry in lst:
-            for c in entry:
-                render_list.append(int(c))
-
-    return render_list
+def read_file(file_path):
+    with open(file_path, "r", encoding='utf8') as file:
+        words = []
+        for word in file:
+            words.append(word[:-1])
+    return words
 
 
 def count_diff(lst):
-    numbers = set(lst)
+    words = set(lst)
 
-    return len(numbers)
+    return len(words)
 
 
 def count_occurrencies(lst):
+    setlist = set(lst)
     order = sorted(lst)
     counters = []
-    numbers = set(lst)
-    numbers = list(numbers)
-    occurrencies = {}
+    occurrences = {}
     output = {}
 
-    for c in numbers:
-        counters.append(order.count(c))
+    for i in range(len(order)):
+        if order[i] in occurrences:
+            occurrences[order[i]] += 1
+        else:
+            occurrences[order[i]] = 1
+    reverse = sorted(occurrences.items(), key=lambda x: x[1], reverse=True)[:5]
+    return reverse
 
-    for c in range(len(counters)):
-        occurrencies[numbers[c]] = counters[c]
+home = os.getcwd()
+home = os.chdir(home + "/src/large_texts.txt")
+home = os.getcwd()
 
-    reverse = sorted(occurrencies.items(), key=lambda x: x[1], reverse=True)
+path_100 = home + '/words_100k.txt'
+holy_path = home + '/words_holygrail.txt'
+rows_100 = read_file(path_100)
+holy_rows = read_file(holy_path)
 
-    for i in range(10):
-        sort = {reverse[i][0]: reverse[i][1]}
-        output.update(sort)
-    return output
+different_100k = count_diff(rows_100)
+count_100k = count_occurrencies(rows_100)
 
+different_grail = count_diff(holy_rows)
+count_grail = count_occurrencies(holy_rows)
 
-hun_thou = os.getcwd() + '/src/large_texts.txt/eng_news_100K-sentences.txt-copy.txt'
-holy_grail = os.getcwd() + '/src/large_texts.txt/holy_grail.txt-copy.txt'
-
-different_hun_thou = count_diff(hun_thou)
-count_hun_thou = count_occurrencies(hun_thou)
-
-different_grail = count_diff(holy_grail)
-count_grail = count_occurrencies(holy_grail)
-
-print(different_A, different_B)
-print(count_A, count_B)
+print(different_100k, count_100k)
+print(different_grail, count_grail)
