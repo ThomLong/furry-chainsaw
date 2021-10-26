@@ -65,11 +65,7 @@ class HashSet:
 
     # Returns current number of elements in set
     def get_size(self):
-        n = 0
-        for bucket in self.buckets:
-            if bucket != []:
-                n += 1
-        return n
+        return self.size
 
     # Returns True if word in set, otherwise False
     def contains(self, word):
