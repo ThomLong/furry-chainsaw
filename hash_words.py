@@ -1,5 +1,4 @@
 import HashSet as hset
-import count_numbers as counting
 import os
 
 # Program starts
@@ -22,18 +21,20 @@ holy_words.init()
 
 # get my paths to the documents
 home = os.getcwd()
+home = os.chdir(home + "/src/large_texts.txt")
+home = os.getcwd()
 
 path_100 = home + '/words_100k.txt'
 holy_path = home + '/words_holygrail.txt'
 rows_100 = read_file(path_100)
 holy_rows = read_file(holy_path)
 
-#for word in rows_100:
-#    words_100.add(word)
+for word in rows_100:
+    words_100.add(word)
 
 for word in holy_rows:
     holy_words.add(word)
 
-#print('The 100K setences file has ', words_100.get_size, ' unique words.')
-print('The holy Grail script has ', holy_words.get_size, ' unique words.')
+print('The 100K setences file has ', words_100.size, ' unique words.')
+print('The holy Grail script has ', holy_words.size, ' unique words.')
 
