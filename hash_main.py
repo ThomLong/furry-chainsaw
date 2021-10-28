@@ -15,7 +15,7 @@ names = ["Ella", "Owen", "Fred", "Zoe", "Adam",
 for name in names:
     words.add(name)
 
-# Placeholder code ==> to be replaced))
+# Placeholder code ==> to be replaced)
 print("\nto_string():", words.to_string())
 print("get_size():", words.get_size())             # 14
 print("contains(Fred):", words.contains("Fred"))   # True

@@ -17,19 +17,19 @@ def count_diff(lst):
 
 
 def count_occurrencies(lst):
-    setlist = set(lst)
     order = sorted(lst)
-    counters = []
     occurrences = {}
-    output = {}
 
     for i in range(len(order)):
-        if order[i] in occurrences:
-            occurrences[order[i]] += 1
-        else:
-            occurrences[order[i]] = 1
-    reverse = sorted(occurrences.items(), key=lambda x: x[1], reverse=True)[:5]
+        if len(order[i]) >= 4:
+            if order[i] in occurrences:
+                occurrences[order[i]] += 1
+            else:
+                occurrences[order[i]] = 1
+    reverse = sorted(occurrences.items(),
+                     key=lambda x: x[1], reverse=True)[:10]
     return reverse
+
 
 home = os.getcwd()
 home = os.chdir(home + "/src/large_texts.txt")
