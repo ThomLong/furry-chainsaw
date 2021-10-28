@@ -24,31 +24,34 @@ class HashSet:
     def rehash(self):
         buckets = self.buckets
         self.N = self.N * 2
-        self.buckets = []
+        self.size = 0
         self.buckets = [[] for i in range(self.N)]
         for bucket in buckets:
-            word = bucket[0]
-            v = bucket[1]
-            self.add(word)
-            i = self.search(word)
-            if self.buckets[i][1] != v:
-                self.buckets[i][1] = v
+            if bucket != []:
+                for entry in bucket:
+                    i = self.get_hash(entry[0])
+                    self.buckets[i].append(entry)
+                    self.size += 1
 
     # Adds a word to set if not already added
     def add(self, word):
         i = self.get_hash(word)
-        while self.buckets[i] != [] and word not in self.buckets[i]:
-            if i == self.N - 1:
-                i = 0
-            else:
-                i += 1
         bucket = self.buckets[i]
-        if bucket == []:
-            bucket.append(word)
-            bucket.append(1)
-            self.size += 1
+        check = False
+        if bucket != []:
+            for entry in bucket:
+                if entry[0] == word:
+                    entry[1] += 1
+                    check = False
+                    break
+                else:
+                    check = True
+            if check is True:
+                bucket.append([word, 1])
+                self.size += 1
         else:
-            bucket[1] += 1
+            bucket.append([word, 1])
+            self.size += 1
 
         if self.size == self.N:
             self.size = 0
@@ -59,7 +62,9 @@ class HashSet:
         string = '{ '
         for bucket in self.buckets:
             if bucket != []:
-                string += bucket[0] + ' '
+                for entry in bucket:
+                    string += entry[0] + ' '
+
         string += '}'
         return string
 
@@ -69,11 +74,14 @@ class HashSet:
 
     # Returns True if word in set, otherwise False
     def contains(self, word):
-        i = self.search(word)
-        if i is False:
-            return False
-        else:
-            return True
+        i = self.get_hash(word)
+        for entry in self.buckets[i]:
+            if entry[0] == word:
+                result = True
+                break
+            else:
+                result = False
+        return result
 
     # Returns current size of bucket list
     def bucket_list_size(self):
@@ -83,31 +91,19 @@ class HashSet:
     # Removes word from set if there, does nothing
     # if word not in set
     def remove(self, word):
-        i = self.search(word)
-        if i is False:
-            pass
-        else:
-            self.buckets[i] = []
-            self.size -= 1
+        i = self.get_hash(word)
+        bucket = self.buckets[i]
+        for entry in bucket:
+            if entry[0] == word:
+                bucket.remove(entry)
+                self.size -= 1
+                break
 
     # Returns the size of the bucket with most elements
     def max_bucket_size(self):
         n = 0
         for bucket in self.buckets:
             if bucket != []:
-                if bucket[1] > n:
-                    n = bucket[1]
+                if len(bucket) > n:
+                    n = len(bucket)
         return n
-
-    def search(self, word):
-        i = self.get_hash(word)
-        while word not in self.buckets[i] and self.buckets[i] != []:
-            if i == self.N - 1:
-                i = 0
-            else:
-                i += 1
-
-        if self.buckets[i] == []:
-            return False
-        else:
-            return i
