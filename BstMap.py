@@ -17,15 +17,69 @@ class Node:
     value: Any = None       # the value
     left: Any = None        # left child (a Node)
     right: Any = None       # right child (a Node)
+    occurrences: int = 1
 
     def put(self, key, value):
-        print('nope')  # Placeholder code ==> to be replaced
+        if not self.key:
+            self.key, self.value = key, value
+            self.counter += 1
+        else:
+            char_node = self.asc(self.key)
+            char_word = self.asc(key)
+            i = 0
+            if len(char_word) >= len(char_node):
+                i = len(char_node)
+            else:
+                i = len(char_word)
+
+            for c in range(i):
+                if char_word[c] > char_node[c]:
+                    if self.right:
+                        self.right.put(key, value)
+                    else:
+                        self.right = Node(key, value)
+                    same = False
+                    break
+                elif char_word[c] < char_node[c]:
+                    if self.left:
+                        self.left.put(key, value)
+                    else:
+                        self.left = Node(key, value)
+                    same = False
+                    break
+                else:
+                    same = True
+            if same:
+                if len(key) == len(self.key):
+                    self.occurrences += 1
+                    self.value = value
+                if len(key) > len(self.key):
+                    if self.right:
+                        self.right.put(key, value)
+                    else:
+                        self.right = Node(key, value)
+
+                elif len(key) < len(self.key):
+                    if self.left:
+                        self.left.put(key, value)
+                    else:
+                        self.left = Node(key, value)
 
     def to_string(self):
-        return ""  # Placeholder code to avoid crash in demo program
+        lst = []
+        lst = self.as_list(lst)
+        string = ''
+        for entry in lst:
+            string += '({}, {}) '.format(entry[0], entry[1])
+        return string
 
     def count(self):
-        pass       # Placeholder code ==> to be replaced
+        counter = 0
+        lst = []
+        lst = self.as_list(lst)
+        for entry in lst:
+            counter += 1
+        return counter
 
     def get(self, key):
         pass    # Placeholder code ==> to be replaced
@@ -36,8 +90,18 @@ class Node:
     # We do a left-to-right in-order traversal of the tree
     # to get the key-value pairs sorted base on their keys
     def as_list(self, lst):
-        # Placeholder code to avoid crash in demo program. To be replaced
-        return [None]
+        if self.left:
+            self.left.as_list(lst)
+        lst.append((self.key, self.value))
+        if self.right:
+            self.right.as_list(lst)
+        return lst
+
+    def asc(self, word):
+        chars = []
+        for c in word:
+            chars.append(ord(c))
+        return chars
 
 
 # The BstMap class is rather simple. It basically just takes care
