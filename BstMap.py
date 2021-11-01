@@ -19,33 +19,33 @@ class Node:
     right: Any = None       # right child (a Node)
 
     def put(self, key, value):
+        if key == self.key:
+            return
         if key < self.key:
-            if self.left is None:
-                self.left == Node(key, value)
-            else:
+            if self.left:
                 self.left.put(key, value)
-        if key > self.key:
-            if self.right is None:
-                self.right == Node(key, value)
             else:
+                self.left = Node(key, value, None, None)
+        if key > self.key:
+            if self.right:
                 self.right.put(key, value)
+            else:
+                self.right = Node(key, value, None, None)
 
     # Returns a string representation of all the key-value pairs
     def to_string(self):
-        if self.left is None:     # Empty, return empty brackets
-            return "{ }"
-        elif self.left is not None:
-            res = "{ "
-            res += self.left.to_string()
-            res += "}"
-            return res
-        elif self.right is None:     # Empty, return empty brackets
-            return "{ }"
-        elif self.right is not None:
-            res = "{ "
-            res += self.right.to_string()
-            res += "}"
-            return res
+        res = ""
+        if self.left:
+            res += "(" + self.left.key + "," + str(self.left.value) + ")"
+        else:
+            pass
+        res += "(" + self.key + "," + str(self.value) + ")"
+        if self.right:
+            res += "(" + self.right.key + "," + str(self.right.value) + ")"
+        else:
+            pass
+        self.left.to_string()
+        return res
 
     def count(self):
         if self.left is None and self.right is None:
@@ -76,14 +76,12 @@ class Node:
     # to get the key-value pairs sorted base on their keys
     def as_list(self):
         lst = []
-        if self.key is None:
-            return lst
-        if self.left is not None and self.right is not None:
-            return self.left.as_list(lst) + self.key.as_list(lst) + self.right.as_list(lst)
-        elif self.left is not None and self.right is None:
-            return self.left.as_list(lst) + self.key.as_list(lst)
-        elif self.left is None and self.right is not None:
-            return self.key.as_list(lst) + self.right.as_list(lst)
+        if self.left:
+            lst += self.left + self.left.as_list()
+        lst.append(self.key)
+        if self.right:
+            lst += self.left + self.right.as_list()
+
 
 # The BstMap class is rather simple. It basically just takes care
 # of the case when the map is empty. All other cases are delegated
@@ -137,9 +135,9 @@ class BstMap:
     # Returns a sorted list of all key-value pairs in the map.
     # Each key-value pair is represented as a tuple and the
     # list is sorted on the keys ==> left-to-right in-order
-    def as_list(self):
-        lst = []
-        if self.root is None:
-            return lst
-        else:
-            return self.root.as_list(lst)
+    # def as_list(self):
+    #     lst = []
+    #     if self.root is None:
+    #         return lst
+    #     else:
+    #         return self.root.as_list(lst)
