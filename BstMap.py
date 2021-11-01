@@ -20,33 +20,32 @@ class Node:
     occurrences: int = 1
 
     def put(self, key, value):
-        if not self.key:
-            self.key = key
-            self.value = value
-        else:
-            what = self.compare(key)
-            if what == 'left':
-                if self.left:
-                    self.left.put(key, value)
-                else:
-                    self.left = Node(key, value)
-            elif what == 'right':
-                if self.right:
-                    self.right.put(key, value)
-                else:
-                    self.right = Node(key, value)
-            elif what == 'here':
-                self.value = value
+        if key == self.key:
+            return
+        if key < self.key:
+            if self.left:
+                self.left.put(key, value)
             else:
-                print('search error')
+                self.left = Node(key, value, None, None)
+        if key > self.key:
+            if self.right:
+                self.right.put(key, value)
+            else:
+                self.right = Node(key, value, None, None)
 
     def to_string(self):
-        lst = []
-        lst = self.as_list(lst)
-        string = ''
-        for entry in lst:
-            string += '({}, {}) '.format(entry[0], entry[1])
-        return string
+        res = ""
+        if self.left:
+            res += "(" + self.left.key + "," + str(self.left.value) + ")"
+        else:
+            pass
+        res += "(" + self.key + "," + str(self.value) + ")"
+        if self.right:
+            res += "(" + self.right.key + "," + str(self.right.value) + ")"
+        else:
+            pass
+        self.left.to_string()
+        return res
 
     def count(self):
         counter = 0
@@ -81,47 +80,13 @@ class Node:
 
     # We do a left-to-right in-order traversal of the tree
     # to get the key-value pairs sorted base on their keys
-    def as_list(self, lst):
+    def as_list(self):
+        lst = []
         if self.left:
-            self.left.as_list(lst)
-        lst.append((self.key, self.value))
+            lst += self.left + self.left.as_list()
+        lst.append(self.key)
         if self.right:
-            self.right.as_list(lst)
-        return lst
-
-    def asc(self, word):
-        chars = []
-        for c in word:
-            chars.append(ord(c))
-        return chars
-
-    def compare(self, key):
-        char_node = self.asc(self.key)
-        char_word = self.asc(key)
-        i = 0
-        same = False
-        if len(char_word) >= len(char_node):
-            i = len(char_node)
-        else:
-            i = len(char_word)
-
-        for c in range(i):
-            if char_word[c] > char_node[c]:
-                same = False
-                return 'right'
-            elif char_word[c] < char_node[c]:
-                same = False
-                return 'left'
-            else:
-                same = True
-
-        if same is True:
-            if len(key) == len(self.key):
-                return 'here'
-            elif len(key) > len(self.key):
-                return 'right'
-            else:
-                return 'left'
+            lst += self.left + self.right.as_list()
 
 
 # The BstMap class is rather simple. It basically just takes care
@@ -176,9 +141,9 @@ class BstMap:
     # Returns a sorted list of all key-value pairs in the map.
     # Each key-value pair is represented as a tuple and the
     # list is sorted on the keys ==> left-to-right in-order
-    def as_list(self):
-        lst = []
-        if self.root is None:
-            return lst
-        else:
-            return self.root.as_list(lst)
+    # def as_list(self):
+    #     lst = []
+    #     if self.root is None:
+    #         return lst
+    #     else:
+    #         return self.root.as_list(lst)
