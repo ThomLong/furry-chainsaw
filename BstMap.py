@@ -17,73 +17,112 @@ class Node:
     value: Any = None       # the value
     left: Any = None        # left child (a Node)
     right: Any = None       # right child (a Node)
+    occurrences: int = 1
 
     def put(self, key, value):
-        if key < self.key:
-            if self.left is None:
-                self.left == Node(key, value)
+        if not self.key:
+            self.key = key
+            self.value = value
+        else:
+            what = self.compare(key)
+            if what == 'left':
+                if self.left:
+                    self.left.put(key, value)
+                else:
+                    self.left = Node(key, value)
+            elif what == 'right':
+                if self.right:
+                    self.right.put(key, value)
+                else:
+                    self.right = Node(key, value)
+            elif what == 'here':
+                self.value = value
             else:
-                self.left.put(key, value)
-        if key > self.key:
-            if self.right is None:
-                self.right == Node(key, value)
-            else:
-                self.right.put(key, value)
+                print('search error')
 
-    # Returns a string representation of all the key-value pairs
     def to_string(self):
-        if self.left is None:     # Empty, return empty brackets
-            return "{ }"
-        elif self.left is not None:
-            res = "{ "
-            res += self.left.to_string()
-            res += "}"
-            return res
-        elif self.right is None:     # Empty, return empty brackets
-            return "{ }"
-        elif self.right is not None:
-            res = "{ "
-            res += self.right.to_string()
-            res += "}"
-            return res
+        lst = []
+        lst = self.as_list(lst)
+        string = ''
+        for entry in lst:
+            string += '({}, {}) '.format(entry[0], entry[1])
+        return string
 
     def count(self):
-        if self.left is None and self.right is None:
-            return 0
-        return 1 + count(self.left) + count(self.right)
+        counter = 0
+        my_lst = []
+        lst = self.as_list(my_lst)
+        for entry in lst:
+            counter += 1
+        return counter
 
     def get(self, key):
-        if self.left is None:
-            return None
-        elif self.left is not None:
-            return self.left.get(key)
-        elif self.right is None:
-            return None
-        elif self.right is not None:
-            return self.right.get(key)
+        if key == self.key:
+            return self.value
+        else:
+            what = self.compare(key)
+            if what == 'left':
+                self.left = Node
+            elif what == 'right':
+                self.right = Node
+            elif what == 'here':
+                return self.value
+            else:
+                return None
 
     def max_depth(self):
-        if self.left is None:
-            return 0
-        elif self.left is not None:
-            return self.left.max_depth()
-        elif self.right is None:
-            return 0
-        elif self.right is not None:
-            return self.right.max_depth()
+        count = 1
+        if self.left:
+            self.left.max_depth()
+        count += 1
+        if self.right:
+            self.right.max_depth()
+        return count
 
     # We do a left-to-right in-order traversal of the tree
     # to get the key-value pairs sorted base on their keys
-    def as_list(self):
-        lst = []
-        if self.key is None:
-            return lst
-        if self.left is not None and self.right is not None:
-            return self.left.as_list(lst) + self.key.as_list(lst) + self.right.as_list(lst)
-        elif self.left is not None and self.right is None:
-            return self.left.as_list(lst) + self.key.as_list(lst)
-        elif self.left is None and self.right is not None:
-            return self.key.as_list(lst) + self.right.as_list(lst)
+    def as_list(self, lst):
+        if self.left:
+            self.left.as_list(lst)
+        lst.append((self.key, self.value))
+        if self.right:
+            self.right.as_list(lst)
+        return lst
+
+    def asc(self, word):
+        chars = []
+        for c in word:
+            chars.append(ord(c))
+        return chars
+
+    def compare(self, key):
+        char_node = self.asc(self.key)
+        char_word = self.asc(key)
+        i = 0
+        same = False
+        if len(char_word) >= len(char_node):
+            i = len(char_node)
+        else:
+            i = len(char_word)
+
+        for c in range(i):
+            if char_word[c] > char_node[c]:
+                same = False
+                return 'right'
+            elif char_word[c] < char_node[c]:
+                same = False
+                return 'left'
+            else:
+                same = True
+
+        if same is True:
+            if len(key) == len(self.key):
+                return 'here'
+            elif len(key) > len(self.key):
+                return 'right'
+            else:
+                return 'left'
+
 
 # The BstMap class is rather simple. It basically just takes care
 # of the case when the map is empty. All other cases are delegated
