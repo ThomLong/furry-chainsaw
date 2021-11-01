@@ -17,6 +17,7 @@ class Node:
     value: Any = None       # the value
     left: Any = None        # left child (a Node)
     right: Any = None       # right child (a Node)
+    occurrences: int = 1
 
     def put(self, key, value):
         if key == self.key:
@@ -32,7 +33,6 @@ class Node:
             else:
                 self.right = Node(key, value, None, None)
 
-    # Returns a string representation of all the key-value pairs
     def to_string(self):
         res = ""
         if self.left:
@@ -48,29 +48,35 @@ class Node:
         return res
 
     def count(self):
-        if self.left is None and self.right is None:
-            return 0
-        return 1 + count(self.left) + count(self.right)
+        counter = 0
+        my_lst = []
+        lst = self.as_list(my_lst)
+        for entry in lst:
+            counter += 1
+        return counter
 
     def get(self, key):
-        if self.left is None:
-            return None
-        elif self.left is not None:
-            return self.left.get(key)
-        elif self.right is None:
-            return None
-        elif self.right is not None:
-            return self.right.get(key)
+        if key == self.key:
+            return self.value
+        else:
+            what = self.compare(key)
+            if what == 'left':
+                self.left = Node
+            elif what == 'right':
+                self.right = Node
+            elif what == 'here':
+                return self.value
+            else:
+                return None
 
     def max_depth(self):
-        if self.left is None:
-            return 0
-        elif self.left is not None:
-            return self.left.max_depth()
-        elif self.right is None:
-            return 0
-        elif self.right is not None:
-            return self.right.max_depth()
+        count = 1
+        if self.left:
+            self.left.max_depth()
+        count += 1
+        if self.right:
+            self.right.max_depth()
+        return count
 
     # We do a left-to-right in-order traversal of the tree
     # to get the key-value pairs sorted base on their keys
