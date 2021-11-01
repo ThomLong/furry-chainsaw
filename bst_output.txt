@@ -1,0 +1,16 @@
+{ (Adam,27) (Ceve,37) (Ella,39) (Fred,44) (Owen,40) (Zoe,41) }
+Size: 6
+
+Override existing values
+{ (Adam,27) (Ceve,100) (Ella,39) (Fred,44) (Owen,40) (Zoe,99) }
+
+Get(Fred): 44
+Get(Jonas): None
+Max depth: 3
+
+Size: 10
+Max depth: 6
+To_string:  { (AA,1) (AAA,2) (AAAA,3) (AAAAA,4) (Adam,27) (Ceve,100) (Ella,39) (Fred,44) (Owen,40) (Zoe,99) }
+
+List size and element type: 10 <class 'tuple'>
+List content: [('AA', 1), ('AAA', 2), ('AAAA', 3), ('AAAAA', 4), ('Adam', 27), ('Ceve', 100), ('Ella', 39), ('Fred', 44), ('Owen', 40), ('Zoe', 99)]
