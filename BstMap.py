@@ -44,13 +44,18 @@ class Node:
             res += "(" + self.right.key + "," + str(self.right.value) + ")"
         else:
             pass
-        self.left.to_string()
         return res
 
     def count(self):
+        num = 0
         if self.left is None and self.right is None:
-            return 0
-        return 1 + count(self.left) + count(self.right)
+            return num
+        if self.left:
+            num += self.left.count()
+        num += 1
+        if self.right:
+            num += self.right.count()
+        return num 
 
     def get(self, key):
         if self.left is None:
