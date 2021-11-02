@@ -25,7 +25,7 @@ def clean(word):
     for w in word:
         if len(w) == 1 and not w[0] == 'a' and not w[0] == 'i':
             continue
-        if len(w) > 1 and w[0].isalpha():
+        if len(w) > 1 and 97 <= ord(w[0]) <= 122:
             new_lst.append(w)
     return new_lst
 # function to save all the words from list

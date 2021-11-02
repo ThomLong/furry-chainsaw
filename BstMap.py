@@ -17,7 +17,6 @@ class Node:
     value: Any = None       # the value
     left: Any = None        # left child (a Node)
     right: Any = None       # right child (a Node)
-    occurrences: int = 1
 
     def put(self, key, value):
         if not self.key:
@@ -26,7 +25,6 @@ class Node:
         else:
             if self.key == key:
                 self.value = value
-                self.occurrences += 1
             elif key < self.key:
                 if self.left:
                     self.left.put(key, value)

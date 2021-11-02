@@ -39,20 +39,33 @@ holy_rows = read_file(holy_path)
 
 for word in rows_100:
     words_100.add(word)
-    total_words.add(word)
-    map_100.put(word, len(word))
-    whole_map.put(word, len(word))
+    if len(word) >= 4:
+        value = map_100.get(word)
+        if value is None:
+            map_100.put(word, 1)
+        else:
+            value += 1
+            map_100.put(word, value)
 
 for word in holy_rows:
     holy_words.add(word)
-    total_words.add(word)
-    holy_map.put(word, len(word))
-    whole_map.put(word, len(word))
+    if len(word) >= 4:
+        value = holy_map.get(word)
+        if value is None:
+            holy_map.put(word, 1)
+        else:
+            value += 1
+            holy_map.put(word, value)
 
-lst_100 = map_100.as_list()
-holy_list = holy_map.as_list()
+top_100 = sorted(map_100.as_list(), key=lambda x: x[1], reverse=True)[:10]
+holy_top = sorted(holy_map.as_list(), key=lambda x: x[1], reverse=True)[:10]
 
 print('The 100K setences file has ', words_100.size, ' unique words.')
-print('Max bucket size for all the words: ', total_words.max_bucket_size())
-print('Max depth in the BST for all the words: ', whole_map.max_depth())
-print('The holy Grail script has ', holy_words.size, ' unique words.')
+print('The top 10 occurrences are ', top_100)
+print('Max bucket size for all the words: ', words_100.max_bucket_size())
+print('Max depth in the BST for all the words: ', map_100.max_depth())
+
+print('\nThe holy Grail script has ', holy_words.size, ' unique words.')
+print('The top 10 occurrences are ', holy_top)
+print('Max bucket size for all the words is: ', holy_words.max_bucket_size())
+print('Max depth in the BST for all the words is: ', holy_map.max_depth())

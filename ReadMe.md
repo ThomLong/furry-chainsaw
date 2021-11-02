@@ -172,31 +172,46 @@ No matter which order is chosen, it is commonly agreed to always display the dat
 
 ## Part 3: Count unique words 2
 
-As the objective of part 2 was to discover the Data structures, this part allow us to us
-- How did you implement the Top-10 part of the problem. Feel free to show code fragments.
-- Present a unique word count and the Top-10 lists for each of the two files.
-* What is the max bucket size for HashSet, and the max depth for BstMap, after having added all the words in the two large word files? (Hence, four different numbers.)
+As the objective of part 2 was to discover the Data structures, this part is focused on the different uses for them by repeating the first part. Some parts are of course similar to the Part 1 as the same files need to be called.
 
-## Part 4: Plotting
-For each subtask:
-* Describe in words and a minimum of Python code how you computed the data used in the plots. (Do not show code for actual plotting).
-* Present and explain figures. Are the results as expected?
+In the beginning I thought to use a counter in my Node class to be able to display it, but I noticed I didn't have any function to call this counter. While writing this ReadMe file, in the hash section, I noticed I could use my value as a counter the same way I have been using it in the add function.  
+It looks like this:
 
-## Part 5: Measuring time
-For each subtask:
-* Describe in words and a minimum of Python code how you solved the problems.
-* Present and explain results and figures. Are the results as expected?
+```python
+if len(word) >= 4:
+	value = holy_map.get(word)
+	if value is None:
+	    holy_map.put(word, 1)
+	else:
+	    value += 1
+	    holy_map.put(word, value)
+```
+
+After checking if the length of the word is at least 4, the function checks if the function exists in the tree, and if it does it increments the counter by 1.  
+Then it converts the function as a list, sorts it by value, and reverse to finally take the last 10 values, like seen in the following snippet:
+
+```python
+holy_top = sorted(holy_map.as_list(), key=lambda x: x[1], reverse=True)[:10]
+```
+
+![Image](./src/part3.jpg "Output of part3.py")
+
+> By comparing the screenshot with the output of part 1, it is possible to see that the output is the same for both files.
+For the 100K sentences, the max bucket is 325 and the max depth is 42. For the Holy Grail script, the max bucket is 17 and the max depth is 23.
 
 ## Project conclusions and lessons learned
-We separate technical issues from project related issues.
-### Technical issues 
-- What were the major technical challanges as you see it? What parts were the hardest and most time consuming.
-- What lessons have you learned? What should you have done differently if you now were facing a similar problem.
-- How could the results be improved if you were given a bit more time to complete the task.
+
+### Technical issues
+
+The major technical issue was to conceptualize both Data Structures. Finding accessible and beginner-friendly resources was time consuming.
+
+Also, the lack of my understanding of some python implementations has been a trouble. For example, for BstMap.py, I coded a comparing function which were comparing the ASCII of 2 words and returned if it was needed to go left or right in the tree.  
+At this moment I didn't know the operators were able to compare letters. There were many situations like this which made me lose time.
+
+But the project taught me to test things I assumed not possible, even if the outcome is predictable and to read the manual. It also taught me how to search for resources in an efficient way and helped me to classify  my sources (of course [the python documentation](docs.python.org "Python Doc") comes first, but the website of the [W3School](w3school.com "W3School") is easier to read).
 
 ### Project issues
-- Describe how your team organized the work. How did you communicate? How often did you communicate?
-- For each individual team member: 
- 	* Describe which parts (or subtasks) of the project they were responsible for. Consider writing the report as a separate task. Try to identify main contributors and co-contributors.
- 	* Estimate hours spend each week (on average)
- - What lessons have you learned? What should you have done differently if you now were facing a similar project.
+
+At first, we were a group of 4. As we met the first time, we decided to split the group in two and work by pair on the Part 2 since Part 1 was already partially done and Part 3 depended on Part 2. As we went forward, each member progressed at different speed and prioritized different aspects of their studies, which ended in me being more implicated, around 6 to 8 hours a week including the research, and finishing the Parts 1 to 3 almost by myself.  
+For the next group project, I think some kind  of contract that each member should sign, enunciating the conditions of the project without being strict, would be benefic and give and extra motivation to the members to work daily on the project.  
+As for me, maybe trying to adapt a bit more to the speed of the other members instead of trying to drag the project would be a goal and would help me to collaborate a bit more with others.
