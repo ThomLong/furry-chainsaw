@@ -24,18 +24,18 @@ class Node:
             self.key = key
             self.value = value
         else:
-            what = self.compare(key)
-            if what == 'left':
+            position = self.compare(key)
+            if position == 'left':
                 if self.left:
                     self.left.put(key, value)
                 else:
                     self.left = Node(key, value)
-            elif what == 'right':
+            elif position == 'right':
                 if self.right:
                     self.right.put(key, value)
                 else:
                     self.right = Node(key, value)
-            elif what == 'here':
+            elif position == 'here':
                 self.value = value
             else:
                 print('search error')
@@ -57,27 +57,32 @@ class Node:
         return counter
 
     def get(self, key):
-        if key == self.key:
+        if self.key == key:
             return self.value
         else:
-            what = self.compare(key)
-            if what == 'left':
-                self.left = Node
-            elif what == 'right':
-                self.right = Node
-            elif what == 'here':
+            position = self.compare(key)
+            if position == 'left':
+                if self.left:
+                    self.left.get(key)
+                else:
+                    return None
+            elif position == 'right':
+                if self.right:
+                    self.right.get(key)
+                else:
+                    return None
+            elif position == 'here':
                 return self.value
-            else:
-                return None
 
     def max_depth(self):
-        count = 1
-        if self.left:
-            self.left.max_depth()
-        count += 1
-        if self.right:
-            self.right.max_depth()
-        return count
+        if self.left is None:
+            return 0
+        elif self.left is not None:
+            return self.left.max_depth()
+        elif self.right is None:
+            return 0
+        elif self.right is not None:
+            return self.right.max_depth()
 
     # We do a left-to-right in-order traversal of the tree
     # to get the key-value pairs sorted base on their keys
