@@ -46,5 +46,8 @@ count_100k = count_occurrencies(rows_100)
 different_grail = count_diff(holy_rows)
 count_grail = count_occurrencies(holy_rows)
 
-print(different_100k, count_100k)
-print(different_grail, count_grail)
+print('There are ', different_100k, ' words in the 100k sentences.',
+      '\nTop 10 words in the 100k sentences: ', count_100k)
+print('There are ', different_grail,
+      ' words in the Holy Grail script.',
+      '\nTop 10 words in the Holy Grail Script: ', count_grail)
