@@ -39,7 +39,7 @@ def count_occurrencies(lst):
     2. The word is already stored in the dictionary. In this case, its value in the dictionary is increased by 1.
 
 ![Image](./src/part1.jpg "Output of part1.py")
-> As we can see there are 88231 words counted in the 100k sentences file, 1915 in the Holy Grail script
+> As we can see there are 88168 words counted in the 100k sentences file, 1915 in the Holy Grail script
 
 ## Part 2: Implementing data structures
 
@@ -208,7 +208,7 @@ The major technical issue was to conceptualize both Data Structures. Finding acc
 Also, the lack of my understanding of some python implementations has been a trouble. For example, for BstMap.py, I coded a comparing function which were comparing the ASCII of 2 words and returned if it was needed to go left or right in the tree.  
 At this moment I didn't know the operators were able to compare letters. There were many situations like this which made me lose time.
 
-But the project taught me to test things I assumed not possible, even if the outcome is predictable and to read the manual. It also taught me how to search for resources in an efficient way and helped me to classify  my sources (of course [the python documentation](docs.python.org "Python Doc") comes first, but the website of the [W3School](w3school.com "W3School") is easier to read).
+But the project taught me to test things I assumed not possible, even if the outcome is predictable and to read the manual. It also taught me how to search for resources in an efficient way and helped me to classify  my sources (of course [the python documentation](https://docs.python.org "Python Doc") comes first, but the website of the [W3School](https://www.w3school.com "W3School") is easier to read).
 
 ### Project issues
 
