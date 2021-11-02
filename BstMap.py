@@ -24,83 +24,72 @@ class Node:
             self.key = key
             self.value = value
         else:
-            position = self.compare(key)
-            if position == 'left':
+            if self.key == key:
+                self.value = value
+                self.occurrences += 1
+            elif key < self.key:
                 if self.left:
                     self.left.put(key, value)
                 else:
                     self.left = Node(key, value)
-            elif position == 'right':
+            else:
                 if self.right:
                     self.right.put(key, value)
                 else:
                     self.right = Node(key, value)
-            elif position == 'here':
-                self.value = value
-            else:
-                self.right = Node(key, value, None, None)
 
     def to_string(self):
-        res = ""
-        if self.left:
-            res += "(" + self.left.key + "," + str(self.left.value) + ")"
-        else:
-            pass
-        res += "(" + self.key + "," + str(self.value) + ")"
-        if self.right:
-            res += "(" + self.right.key + "," + str(self.right.value) + ")"
-        else:
-            pass
-        return res
+        lst = []
+        lst = self.as_list(lst)
+        string = ''
+        for entry in lst:
+            string += '({}, {}) '.format(entry[0], entry[1])
+        return string
 
     def count(self):
-        num = 0
-        if self.left is None and self.right is None:
-            return num
-        if self.left:
-            num += self.left.count()
-        num += 1
-        if self.right:
-            num += self.right.count()
-        return num 
+        counter = 0
+        my_lst = []
+        lst = self.as_list(my_lst)
+        for entry in lst:
+            counter += 1
+        return counter
 
     def get(self, key):
         if self.key == key:
             return self.value
+        if key < self.key:
+            if self.left:
+                return self.left.get(key)
+            else:
+                return None
         else:
-            position = self.compare(key)
-            if position == 'left':
-                if self.left:
-                    self.left.get(key)
-                else:
-                    return None
-            elif position == 'right':
-                if self.right:
-                    self.right.get(key)
-                else:
-                    return None
-            elif position == 'here':
-                return self.value
+            if self.right:
+                return self.right.get(key)
+            else:
+                return None
 
     def max_depth(self):
-        if self.left is None:
-            return 0
-        elif self.left is not None:
-            return self.left.max_depth()
-        elif self.right is None:
-            return 0
-        elif self.right is not None:
-            return self.right.max_depth()
+        if self.left:
+            depth_left = self.left.max_depth()
+        elif not self.left:
+            depth_left = 0
+
+        if self.right:
+            depth_right = self.right.max_depth()
+        elif not self.right:
+            depth_right = 0
+        depth_max = 1 + max(depth_right, depth_left)
+        return depth_max
 
     # We do a left-to-right in-order traversal of the tree
     # to get the key-value pairs sorted base on their keys
-    def as_list(self):
-        lst = []
+    def as_list(self, lst):
         if self.left:
-            lst += self.left + self.left.as_list()
-        lst.append(self.key)
+            self.left.as_list(lst)
+        lst.append((self.key, self.value))
         if self.right:
-            lst += self.left + self.right.as_list()
+            self.right.as_list(lst)
+        return lst
 
 
 # The BstMap class is rather simple. It basically just takes care

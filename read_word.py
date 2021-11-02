@@ -1,11 +1,15 @@
 import os
 # read the file & return list of string
+
+
 def read_file(file_path):
     with open(file_path, "r", encoding='utf8') as file:
-        word= file.read()
+        word = file.read()
         word = word.lower()
     return word
 # splits & seperates special characters
+
+
 def get_words(row):
     new = ""
     for sign in row:
@@ -14,6 +18,8 @@ def get_words(row):
             new = new + sign
     return new.split()
 # returns list of words in string
+
+
 def clean(word):
     new_lst = []
     for w in word:
@@ -23,10 +29,14 @@ def clean(word):
             new_lst.append(w)
     return new_lst
 # function to save all the words from list
+
+
 def save_words(file_path, word):
     with open(file_path, "w") as file:
         for w in word:
             file.write(w + '\n')
+
+
 # main program
 # file path
 home = os.getcwd()
