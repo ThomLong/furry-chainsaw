@@ -140,9 +140,9 @@ class BstMap:
     # Returns a sorted list of all key-value pairs in the map.
     # Each key-value pair is represented as a tuple and the
     # list is sorted on the keys ==> left-to-right in-order
-    # def as_list(self):
-    #     lst = []
-    #     if self.root is None:
-    #         return lst
-    #     else:
-    #         return self.root.as_list(lst)
+    def as_list(self):
+        lst = []
+        if self.root is None:
+            return lst
+        else:
+            return self.root.as_list(lst)
