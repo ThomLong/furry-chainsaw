@@ -20,12 +20,8 @@ words_100.init()             # Initialize with eight empty buckets
 holy_words = hset.HashSet()   # Create new empty HashSet
 holy_words.init()
 
-total_words = hset.HashSet()   # Create new empty HashSet
-total_words.init()
-
 map_100 = bst.BstMap()
 holy_map = bst.BstMap()
-whole_map = bst.BstMap()
 
 # get my paths to the documents
 home = os.getcwd()
@@ -46,7 +42,7 @@ for word in rows_100:
         else:
             value += 1
             map_100.put(word, value)
-
+ 
 for word in holy_rows:
     holy_words.add(word)
     if len(word) >= 4:
